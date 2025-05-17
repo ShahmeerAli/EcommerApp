@@ -59,10 +59,11 @@ class MyViewModel( val repo: RepositoryClass?=null,val repositoryRoom: Repositor
         } }
     }
 
-    fun GetFavItems(ecommDao: EcommTable){
-        viewModelScope.launch {
-            repositoryRoom?.getFavouriteItems(ecommDao)
-        }
+    fun GetFavItems(): LiveData<MutableList<EcommTable>>? {
+
+           return repositoryRoom?.getFavouriteItems()
+
+
     }
 
 

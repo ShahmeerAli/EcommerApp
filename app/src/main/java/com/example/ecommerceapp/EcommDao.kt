@@ -5,7 +5,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import java.nio.charset.CodingErrorAction.IGNORE
 
 @Dao
 interface EcommDao {
@@ -22,6 +21,6 @@ interface EcommDao {
    fun addtoFavourites(ecomm: EcommTable)
 
    @Query("Select * from EcommTable where isFavourite =1")
-   fun getFavouriteItems(ecomm: EcommTable)
+   fun getFavouriteItems(): LiveData<MutableList<EcommTable>>
 
 }

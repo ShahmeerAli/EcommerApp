@@ -8,7 +8,7 @@ class RepositoryRoom(private val rdb: DBHelperClass)  {
 
     fun insert(ecommDao: EcommTable)=rdb.EcommmDao().addtoCart(ecommDao)
 
-    fun AddFavouriteItems(ecommDao: EcommTable)=rdb.EcommmDao().getFavouriteItems(ecommDao)
+    fun AddFavouriteItems(ecommDao: EcommTable)=rdb.EcommmDao().addtoFavourites(ecommDao)
 
-    fun getFavouriteItems(ecommDao: EcommTable)=rdb.EcommmDao().getFavouriteItems(ecommDao)
+    fun getFavouriteItems()=rdb.EcommmDao().getFavouriteItems()
 }
