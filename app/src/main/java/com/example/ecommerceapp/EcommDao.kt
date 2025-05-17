@@ -18,4 +18,10 @@ interface EcommDao {
    @Insert(onConflict = OnConflictStrategy.REPLACE)
    fun addtoCart(ecomm: EcommTable)
 
+   @Insert(onConflict = OnConflictStrategy.REPLACE)
+   fun addtoFavourites(ecomm: EcommTable)
+
+   @Query("Select * from EcommTable where isFavourite =1")
+   fun getFavouriteItems(ecomm: EcommTable)
+
 }

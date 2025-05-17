@@ -9,6 +9,7 @@ data class EcommTable(
     var categoyr:String,
     var image:String,
     var price:Int,
+    var isFavourite: Boolean,
     @PrimaryKey(autoGenerate = true)
     var id:Int=0
 

@@ -38,9 +38,9 @@ class MyViewModel( val repo: RepositoryClass?=null,val repositoryRoom: Repositor
 
 
 
-     fun CartItems(): LiveData<MutableList<EcommTable>>? {
+    fun CartItems(): LiveData<MutableList<EcommTable>>? {
       return repositoryRoom?.CartItems()
-     }
+    }
 
     fun insert(ecommDao: EcommTable){
         viewModelScope.launch {
@@ -50,6 +50,19 @@ class MyViewModel( val repo: RepositoryClass?=null,val repositoryRoom: Repositor
 
     fun TotalPrice(): LiveData<Int>? {
         return repositoryRoom?.Totalprice()
+    }
+
+
+    fun AddFavouriteItems(ecommDao: EcommTable){
+        viewModelScope.launch { {
+            repositoryRoom?.AddFavouriteItems(ecommDao)
+        } }
+    }
+
+    fun GetFavItems(ecommDao: EcommTable){
+        viewModelScope.launch {
+            repositoryRoom?.getFavouriteItems(ecommDao)
+        }
     }
 
 

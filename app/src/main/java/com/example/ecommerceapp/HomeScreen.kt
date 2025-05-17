@@ -1,5 +1,6 @@
 package com.example.ecommerceapp
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -7,6 +8,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -24,9 +26,12 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -52,11 +57,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class HomeScreen {
 
@@ -100,6 +104,7 @@ class HomeScreen {
               innerpadding
             )
             ) {
+                
                 Spacer(modifier = Modifier.height(10.dp))
                 Row(modifier = Modifier.fillMaxWidth().padding(5.dp).border(0.dp, color = Color.Transparent, shape = RoundedCornerShape(3.dp)), horizontalArrangement = Arrangement.Center){
                     Image(painterResource(R.drawable.bannerimage),"banner", modifier = Modifier.fillMaxWidth())
@@ -117,7 +122,7 @@ class HomeScreen {
                 ShopCategory(navController)
                 Spacer(modifier = Modifier.height(12.dp))
                 Text("Trending Now", style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold), modifier = Modifier.padding(5.dp))
-                Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(20.dp))
                 TrendingItems(viewmodel)
             }
 
@@ -218,31 +223,64 @@ class HomeScreen {
                 columns = GridCells.Fixed(2)
             ) {
                 itemsIndexed(totalItems) { index, item ->
-                    TrendingItemsCard(item)
+                    TrendingItemsCard(item,viewModel)
                 }
             }
         }
     }
 
     @Composable
-    fun TrendingItemsCard(item: DataHome){
+    fun TrendingItemsCard(item: DataHome,viewModel: MyViewModel){
+        val context=LocalContext.current.applicationContext
         Log.d("Images","Fetching")
-        Card(
-            modifier = Modifier.padding(10.dp).width(300.dp).height(300.dp).background(color = Color.White)
-                .border(2.dp, color = Color.Transparent).shadow(elevation = 10.dp), shape = RoundedCornerShape(10.dp)
-        ){
-            AsyncImage(
-                model = item.imageUrl,
-                contentDescription = item.category.toString(),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(),
-                contentScale = ContentScale.Crop
-            )
+
+            Card(
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.White
+                ),
+                modifier = Modifier.padding(10.dp).width(300.dp).wrapContentHeight()
+                    .border(2.dp, color = Color.Transparent).shadow(elevation = 10.dp), shape = RoundedCornerShape(10.dp)
+            ){
+                Column(modifier = Modifier.fillMaxWidth().fillMaxHeight()) {
+                    AsyncImage(
+                        model = item.imageUrl,
+                        contentDescription = item.category.toString(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(250.dp),
+                        contentScale = ContentScale.Crop
+                    )
+
+
+
+                    Icon(painterResource(R.drawable.cart_1_svgrepo_com), contentDescription = "cart", modifier = Modifier.padding(10.dp).clickable{
+                        addedtoCart(item.imageUrl, item.category.toString(),viewModel)
+                        Toast.makeText(context,"Item Added to Cart", Toast.LENGTH_SHORT).show()
+                    })
+                    Icon(painter = painterResource(R.drawable.heart_svgrepo_com__1_), contentDescription = "favourites", modifier = Modifier.padding(10.dp).clickable{
+
+                    })
+
+                }
+                }
+
+
+
+
+
+
+
+
+    }
+
+
+    @SuppressLint("CoroutineCreationDuringComposition")
+    fun addedtoCart(item: String, category: String, viewModel: MyViewModel){
+
+        CoroutineScope(Dispatchers.IO).launch {
+            viewModel.insert(ecommDao = EcommTable(category,item,0,false))
 
         }
-
-
     }
 
 
