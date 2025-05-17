@@ -40,6 +40,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -60,6 +61,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class HomeScreen {
+    private lateinit var RoomViewModel: MyViewModel
 
 
     @OptIn(ExperimentalMaterial3Api::class)
@@ -68,7 +70,14 @@ class HomeScreen {
     fun Home(navController: NavController){
         val context= LocalContext.current.applicationContext
         val repoFirebase= RepositoryClass()
-        val viewmodel: MyViewModel = viewModel(factory = RepoFactory(repoFirebase))
+
+
+        val dbHelper= DBHelperClass.getInstance(context)
+        val repo= RepositoryRoom(dbHelper)
+        val viewmodel: MyViewModel = viewModel(factory = RepoFactory(repoFirebase,repo))
+
+
+
 
         Scaffold (
             topBar = { TopAppBar(
@@ -229,6 +238,7 @@ class HomeScreen {
     @Composable
     fun TrendingItemsCard(item: DataHome,viewModel: MyViewModel){
         val context=LocalContext.current.applicationContext
+        val coroutineScope = rememberCoroutineScope()
         Log.d("Images","Fetching")
 
             Card(
@@ -251,8 +261,12 @@ class HomeScreen {
 
 
                     Icon(painterResource(R.drawable.cart_1_svgrepo_com), contentDescription = "cart", modifier = Modifier.padding(10.dp).clickable{
-                        addedtoCart(item.imageUrl, item.category.toString(),viewModel)
+                        coroutineScope.launch {
+                            viewModel.insert(ecommDao = EcommTable(item.category.toString(),item.imageUrl,0,false))
+
+                        }
                         Toast.makeText(context,"Item Added to Cart", Toast.LENGTH_SHORT).show()
+                        Log.d("Added Item ","${item.category}")
                     })
                     Icon(painter = painterResource(R.drawable.heart_svgrepo_com__1_), contentDescription = "favourites", modifier = Modifier.padding(10.dp).clickable{
 
@@ -271,14 +285,7 @@ class HomeScreen {
     }
 
 
-    @SuppressLint("CoroutineCreationDuringComposition")
-    fun addedtoCart(item: String, category: String, viewModel: MyViewModel){
 
-        CoroutineScope(Dispatchers.IO).launch {
-            viewModel.insert(ecommDao = EcommTable(category,item,0,false))
-
-        }
-    }
 
 
 

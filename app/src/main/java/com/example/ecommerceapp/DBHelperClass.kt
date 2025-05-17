@@ -10,7 +10,7 @@ import androidx.room.RoomDatabase
 @Database(
     entities = [EcommTable::class],
     exportSchema = false,
-    version = 3
+    version = 4
 )
 abstract class DBHelperClass: RoomDatabase() {
 

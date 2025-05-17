@@ -16,7 +16,7 @@ interface EcommDao {
    fun  getCartSum(): LiveData<Int>
 
    @Insert(onConflict = OnConflictStrategy.REPLACE)
-   fun addtoCart(ecomm: EcommTable)
+   suspend fun addtoCart(ecomm: EcommTable)
 
    @Insert(onConflict = OnConflictStrategy.REPLACE)
    fun addtoFavourites(ecomm: EcommTable)
