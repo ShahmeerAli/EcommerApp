@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.google.gms.google.services)
+    id("kotlin-kapt")
+
 }
 
 android {
@@ -38,6 +40,9 @@ android {
     buildFeatures {
         compose = true
     }
+
+
+
 }
 
 dependencies {
@@ -57,9 +62,11 @@ dependencies {
     implementation(libs.firebase.database)
     implementation(libs.firebase.firestore)
     implementation(libs.play.services.ads)
-    implementation("androidx.room:room-runtime:2.6.1")
-    implementation("androidx.room:room-runtime:2.6.1")
+    val room_version = "2.6.1" // Use the latest version
+    implementation ("androidx.room:room-runtime:$room_version")
+    implementation ("androidx.room:room-ktx:$room_version")
     implementation("androidx.core:core-splashscreen:1.0.0")
+    kapt("androidx.room:room-compiler:$room_version")
     val nav_version = "2.8.9"
 
     // Jetpack Compose integration
@@ -74,6 +81,12 @@ dependencies {
 
     // Testing Navigation
     androidTestImplementation("androidx.navigation:navigation-testing:$nav_version")
+
+
+    val lifecycle_version = "2.6.2" // Use the latest version
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
+    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
+    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version")
 
 
     // JSON serialization library, works with the Kotlin serialization plugin

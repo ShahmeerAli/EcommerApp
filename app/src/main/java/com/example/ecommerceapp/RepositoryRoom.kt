@@ -1,14 +1,16 @@
 package com.example.ecommerceapp
 
+import androidx.lifecycle.LiveData
+
 class RepositoryRoom(private val rdb: DBHelperClass)  {
 
-    fun CartItems()=rdb.EcommmDao().getCartItems()
+    val CartItems: LiveData<MutableList<EcommTable>>?=rdb.ecommDao().getCartItems()
 
-    fun Totalprice()=rdb.EcommmDao().getCartSum()
+    fun Totalprice()=rdb.ecommDao().getCartSum()
 
-    fun insert(ecommDao: EcommTable)=rdb.EcommmDao().addtoCart(ecommDao)
+    fun insert(ecommDao: EcommTable)=rdb.ecommDao().addtoCart(ecommDao)
 
-    fun AddFavouriteItems(ecommDao: EcommTable)=rdb.EcommmDao().addtoFavourites(ecommDao)
+    fun AddFavouriteItems(ecommDao: EcommTable)=rdb.ecommDao().addtoFavourites(ecommDao)
 
-    fun getFavouriteItems()=rdb.EcommmDao().getFavouriteItems()
+    fun getFavouriteItems()=rdb.ecommDao().getFavouriteItems()
 }

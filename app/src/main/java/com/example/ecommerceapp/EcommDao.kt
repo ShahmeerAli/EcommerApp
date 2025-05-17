@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
 @Dao
+
 interface EcommDao {
    @Query("Select * from EcommTable")
    fun getCartItems(): LiveData<MutableList<EcommTable>>

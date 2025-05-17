@@ -38,9 +38,7 @@ class MyViewModel( val repo: RepositoryClass?=null,val repositoryRoom: Repositor
 
 
 
-    fun CartItems(): LiveData<MutableList<EcommTable>>? {
-      return repositoryRoom?.CartItems()
-    }
+    val cartItems=repositoryRoom?.CartItems
 
     fun insert(ecommDao: EcommTable){
         viewModelScope.launch {

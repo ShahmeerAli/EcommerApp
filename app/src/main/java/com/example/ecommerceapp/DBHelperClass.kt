@@ -14,7 +14,7 @@ import androidx.room.RoomDatabase
 )
 abstract class DBHelperClass: RoomDatabase() {
 
-    abstract fun EcommmDao(): EcommDao
+    abstract fun ecommDao(): EcommDao
 
     companion object{
         val DB_NAME="ecomm_db"

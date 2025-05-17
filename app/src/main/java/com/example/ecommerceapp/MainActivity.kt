@@ -124,7 +124,7 @@ fun MyBottomAppBar(){
                SearchScreen()
            }
            composable(Screens.CartScreen.screen) {
-               CartScreen()
+               CartScreen().displayCartItems()
            }
            composable(Screens.SettingsScreen.screen) {
                SearchScreen()
