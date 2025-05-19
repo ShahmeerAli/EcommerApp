@@ -3,6 +3,7 @@ package com.example.ecommerceapp
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,9 +20,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,11 +40,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 
 class CartScreen {
-      val counter=0;
-      val totalPrice=0;
+      var counter=0;
+      var totalPrice=0;
+
 
     @Composable
     fun displayCartItems(){
+
         val context= LocalContext.current.applicationContext
         val dbHelper= DBHelperClass.getInstance(context)
         val repo= RepositoryRoom(dbHelper)
@@ -51,7 +59,7 @@ class CartScreen {
                 horizontalArrangement = Arrangement.SpaceEvenly
         ){
             Text("My Cart", style = TextStyle(fontSize= 25.sp))
-            Text("Total Price : ", style = TextStyle(fontSize = 20.sp), modifier = Modifier.padding(5.dp))
+            Text("Total Price : ${totalPrice}", style = TextStyle(fontSize = 20.sp), modifier = Modifier.padding(5.dp))
 
 
         }
@@ -85,6 +93,9 @@ class CartScreen {
 
     @Composable
     fun DisplayCard(item: EcommTable){
+        var quantity by remember {
+            mutableStateOf(1)
+        };
 
 
         Column (
@@ -98,7 +109,7 @@ class CartScreen {
         ){
             Card(modifier = Modifier
                 .fillMaxWidth()
-                .height(100.dp)
+                .height(110.dp)
                 .border(2.dp,Color.LightGray),
                 colors = CardDefaults.cardColors(
                 containerColor = Color.White
@@ -112,9 +123,36 @@ class CartScreen {
                         modifier = Modifier.height(120.dp).width(140.dp).padding(5.dp)
                     )
 
+
+
                     Column (modifier = Modifier
                         .padding(10.dp)){
+                        Row(horizontalArrangement = Arrangement.End, modifier = Modifier.offset(180.dp)){
+                            Icon(painter = painterResource(R.drawable.cancel_svgrepo_com),"cancelBt", tint = Color.Red, modifier = Modifier.clickable{
+
+                            })
+                        }
+
                         Text(item.categoyr)
+
+
+                        Text("quantity : ${quantity}")
+
+
+                        Spacer(modifier = Modifier.height(5.dp))
+                        Row(modifier = Modifier.fillMaxWidth()){
+                            Icon(painter = painterResource(R.drawable.add),"add bt", tint = Color.Green, modifier = Modifier.clickable{
+                                quantity++
+                            })
+                            Spacer(modifier = Modifier.width(10.dp))
+                            Icon(painter = painterResource(R.drawable.subtract_circle_minus_remove_svgrepo_com),"subtractBt", tint = Color.Red, modifier = Modifier.clickable{
+                                if(quantity>1){
+                                    quantity--
+                                }
+
+                            })
+                        }
+
                     }
 
 

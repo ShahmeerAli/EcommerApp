@@ -21,12 +21,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -105,31 +108,15 @@ class HomeScreen {
         )
         {
             innerpadding->
-            Column(modifier = Modifier.fillMaxWidth().background(color = Color.White)
+            Column (modifier = Modifier.fillMaxWidth().background(color = Color.White)
                 .padding(
               innerpadding
             )
             ) {
-                
-                Spacer(modifier = Modifier.height(10.dp))
-                Row(modifier = Modifier.fillMaxWidth().padding(5.dp).border(0.dp, color = Color.Transparent, shape = RoundedCornerShape(3.dp)), horizontalArrangement = Arrangement.Center){
-                    Image(painterResource(R.drawable.bannerimage),"banner", modifier = Modifier.fillMaxWidth())
 
-                }
-                Spacer(modifier = Modifier.height(12.dp))
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween){
-                    Text("Shop by Category", style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold), modifier = Modifier.padding(5.dp))
-                    Text("See All", style = TextStyle(fontSize = 15.sp), modifier = Modifier.padding(7.dp).clickable(onClick = {
+                    MainDisplay(navController,viewmodel)
 
-                    }))
-                }
 
-                Spacer(modifier= Modifier.height(12.dp))
-                ShopCategory(navController)
-                Spacer(modifier = Modifier.height(12.dp))
-                Text("Trending Now", style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold), modifier = Modifier.padding(5.dp))
-                Spacer(modifier = Modifier.height(20.dp))
-                TrendingItems(viewmodel)
             }
 
 
@@ -142,6 +129,29 @@ class HomeScreen {
 
     }
 
+
+    @Composable
+    fun MainDisplay(navController: NavController,viewmodel: MyViewModel){
+        Spacer(modifier = Modifier.height(10.dp))
+        Row(modifier = Modifier.fillMaxWidth().padding(5.dp).border(0.dp, color = Color.Transparent, shape = RoundedCornerShape(3.dp)), horizontalArrangement = Arrangement.Center){
+            Image(painterResource(R.drawable.bannerimage),"banner", modifier = Modifier.fillMaxWidth())
+
+        }
+        Spacer(modifier = Modifier.height(12.dp))
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween){
+            Text("Shop by Category", style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold), modifier = Modifier.padding(5.dp))
+            Text("See All", style = TextStyle(fontSize = 15.sp), modifier = Modifier.padding(7.dp).clickable(onClick = {
+
+            }))
+        }
+
+        Spacer(modifier= Modifier.height(12.dp))
+        ShopCategory(navController)
+        Spacer(modifier = Modifier.height(12.dp))
+        Text("Trending Now", style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold), modifier = Modifier.padding(5.dp))
+        Spacer(modifier = Modifier.height(20.dp))
+        TrendingItems(viewmodel)
+    }
 
 
     @Composable
@@ -228,6 +238,7 @@ class HomeScreen {
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
                 columns = GridCells.Fixed(2)
             ) {
+
                 itemsIndexed(totalItems) { index, item ->
                     TrendingItemsCard(item,viewModel)
                 }
