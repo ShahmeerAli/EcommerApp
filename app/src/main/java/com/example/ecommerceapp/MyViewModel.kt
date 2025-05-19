@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.database.MutableData
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.Dispatcher
 
@@ -50,6 +51,11 @@ class MyViewModel( val repo: RepositoryClass?=null,val repositoryRoom: Repositor
         return repositoryRoom?.Totalprice()
     }
 
+    fun updateQuantity(quantity:Int,id:Int){
+        viewModelScope.launch(Dispatchers.IO) {
+            repositoryRoom?.getQuantity(quantity,id)
+        }
+    }
 
     fun AddFavouriteItems(ecommDao: EcommTable){
         viewModelScope.launch { {

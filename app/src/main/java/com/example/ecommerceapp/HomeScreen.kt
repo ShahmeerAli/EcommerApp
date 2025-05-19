@@ -273,7 +273,7 @@ class HomeScreen {
 
                     Icon(painterResource(R.drawable.cart_1_svgrepo_com), contentDescription = "cart", modifier = Modifier.padding(10.dp).clickable{
                         coroutineScope.launch {
-                            viewModel.insert(ecommDao = EcommTable(item.category.toString(),item.imageUrl,0,false))
+                            viewModel.insert(ecommDao = EcommTable(item.category.toString(),item.imageUrl,0,1,false))
 
                         }
                         Toast.makeText(context,"Item Added to Cart", Toast.LENGTH_SHORT).show()

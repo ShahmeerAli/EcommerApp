@@ -38,10 +38,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import okhttp3.Dispatcher
 
 class CartScreen {
-      var counter=0;
-      var totalPrice=0;
+  var totalPrice=0;
 
 
     @Composable
@@ -78,7 +80,7 @@ class CartScreen {
                 LazyColumn (modifier = Modifier.padding(10.dp).fillMaxWidth().fillMaxHeight(), verticalArrangement = Arrangement.spacedBy(10.dp)){
                     items(totalItems){
                             item->
-                        DisplayCard(item)
+                        DisplayCard(item,viewModel)
 
                     }
                 }
@@ -92,11 +94,11 @@ class CartScreen {
 
 
     @Composable
-    fun DisplayCard(item: EcommTable){
-        var quantity by remember {
-            mutableStateOf(1)
-        };
+    fun DisplayCard(item: EcommTable,viewModel: MyViewModel){
 
+        var quantity by remember {
+            mutableStateOf(item.quantity)
+        }
 
         Column (
             modifier = Modifier
@@ -134,20 +136,28 @@ class CartScreen {
                         }
 
                         Text(item.categoyr)
-
-
                         Text("quantity : ${quantity}")
+
+
+
 
 
                         Spacer(modifier = Modifier.height(5.dp))
                         Row(modifier = Modifier.fillMaxWidth()){
                             Icon(painter = painterResource(R.drawable.add),"add bt", tint = Color.Green, modifier = Modifier.clickable{
                                 quantity++
+
+                                    viewModel.updateQuantity(quantity,item.id)
+
+
                             })
                             Spacer(modifier = Modifier.width(10.dp))
                             Icon(painter = painterResource(R.drawable.subtract_circle_minus_remove_svgrepo_com),"subtractBt", tint = Color.Red, modifier = Modifier.clickable{
                                 if(quantity>1){
                                     quantity--
+                                        viewModel.updateQuantity(quantity,item.id)
+
+
                                 }
 
                             })

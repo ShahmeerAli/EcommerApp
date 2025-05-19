@@ -24,4 +24,8 @@ interface EcommDao {
    @Query("Select * from EcommTable where isFavourite =1")
    fun getFavouriteItems(): LiveData<MutableList<EcommTable>>
 
+   @Query("Update EcommTable SET quantity =:quantity WHERE id =:id")
+  suspend fun updateQuantity(quantity:Int, id:Int)
+
+
 }
