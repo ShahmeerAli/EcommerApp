@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,9 +17,12 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -54,16 +58,21 @@ class CartScreen {
         Column (modifier = Modifier.fillMaxWidth().fillMaxHeight().background(color = Color.White)){
             Row(
                 modifier = Modifier.fillMaxWidth()
-                    .wrapContentHeight(),
-                horizontalArrangement = Arrangement.SpaceEvenly
+                    .wrapContentHeight()
+                    .padding(10.dp)
+                    .offset(0.dp,30.dp)
+                    .background(color = Color(0x0FB62929))
+                ,
+                horizontalArrangement = Arrangement.Start
+
             ){
                 Text("My Cart", style = TextStyle(fontSize= 25.sp))
-                Text("Total Price : ${totalPrice}", style = TextStyle(fontSize = 20.sp), modifier = Modifier.padding(5.dp))
+
 
 
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(20.dp).background(color = Color(0XFF800080)))
 
             val cartItemsState = viewModel.cartItems?.observeAsState(emptyList())
             val totalItems= cartItemsState?.value ?: emptyList()
@@ -73,13 +82,28 @@ class CartScreen {
                     Image(painter = painterResource(R.drawable.emptycart), contentDescription = "cart empty", modifier = Modifier.width(200.dp).height(200.dp))
                 }
             }else{
-                LazyColumn (modifier = Modifier.fillMaxWidth().weight(1f).padding(8.dp).navigationBarsPadding(), verticalArrangement = Arrangement.SpaceEvenly){
+                LazyColumn (modifier = Modifier.fillMaxWidth().weight(1f).padding(8.dp).navigationBarsPadding(), verticalArrangement = Arrangement.spacedBy(5.dp)){
                     items(totalItems){
                             item->
                         DisplayCard(item,viewModel)
 
                     }
                 }
+            }
+
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly){
+                Button(modifier = Modifier.wrapContentHeight().wrapContentWidth(), colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF3B2482)
+                ), onClick = {
+
+                })
+                {
+                    Text("Check Out", color = Color.White)
+                }
+
+                Text("Total  : ${totalPrice}", style = TextStyle(fontSize = 20.sp), modifier = Modifier.padding(10.dp))
+
+
             }
 
 
@@ -103,25 +127,26 @@ class CartScreen {
                 .fillMaxWidth()
                 .offset(0.dp,5.dp)
                 .padding(8.dp)
-                .background(color = Color.White), verticalArrangement = Arrangement.SpaceEvenly
+                .background(color = Color.White), verticalArrangement = Arrangement.spacedBy(5.dp)
 
 
 
         ){
             Card(modifier = Modifier
                 .fillMaxWidth()
-                .height(110.dp)
-                .border(2.dp,Color.LightGray),
+                .height(100.dp)
+                .border(2.dp,Color.White),
                 colors = CardDefaults.cardColors(
                 containerColor = Color.White
-            ), shape = RoundedCornerShape(5.dp),
-                elevation = CardDefaults.cardElevation(10.dp)
+            ),
+                shape = RoundedCornerShape(10.dp),
+
             ){
                 Row(modifier = Modifier.fillMaxWidth()){
                     AsyncImage(
                         model = item.image,
                         contentDescription = null,
-                        modifier = Modifier.height(120.dp).width(140.dp).padding(5.dp)
+                        modifier = Modifier.height(100.dp).width(120.dp).padding(5.dp)
                     )
 
 
