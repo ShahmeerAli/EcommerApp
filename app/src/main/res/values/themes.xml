@@ -5,6 +5,9 @@
         <item name="windowSplashScreenBackground">#8A63F6</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/mainlogo</item>
         <item name="postSplashScreenTheme">@style/Theme.EcommerceApp</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
 
     </style>
 

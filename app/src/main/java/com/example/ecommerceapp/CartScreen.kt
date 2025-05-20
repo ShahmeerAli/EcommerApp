@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -38,14 +39,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import okhttp3.Dispatcher
 
 class CartScreen {
   var totalPrice=0;
-
-
+  
     @Composable
     fun displayCartItems(){
 
@@ -54,19 +51,19 @@ class CartScreen {
         val repo= RepositoryRoom(dbHelper)
         val viewModel:MyViewModel = viewModel(factory = RepoFactory(null,repo))
 
-        Row(
-            modifier = Modifier.fillMaxWidth()
-                .wrapContentHeight()
-                .padding(10.dp),
+        Column (modifier = Modifier.fillMaxWidth().fillMaxHeight().background(color = Color.White)){
+            Row(
+                modifier = Modifier.fillMaxWidth()
+                    .wrapContentHeight(),
                 horizontalArrangement = Arrangement.SpaceEvenly
-        ){
-            Text("My Cart", style = TextStyle(fontSize= 25.sp))
-            Text("Total Price : ${totalPrice}", style = TextStyle(fontSize = 20.sp), modifier = Modifier.padding(5.dp))
+            ){
+                Text("My Cart", style = TextStyle(fontSize= 25.sp))
+                Text("Total Price : ${totalPrice}", style = TextStyle(fontSize = 20.sp), modifier = Modifier.padding(5.dp))
 
 
-        }
+            }
 
-         Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
             val cartItemsState = viewModel.cartItems?.observeAsState(emptyList())
             val totalItems= cartItemsState?.value ?: emptyList()
@@ -76,8 +73,7 @@ class CartScreen {
                     Image(painter = painterResource(R.drawable.emptycart), contentDescription = "cart empty", modifier = Modifier.width(200.dp).height(200.dp))
                 }
             }else{
-
-                LazyColumn (modifier = Modifier.padding(10.dp).fillMaxWidth().fillMaxHeight(), verticalArrangement = Arrangement.spacedBy(10.dp)){
+                LazyColumn (modifier = Modifier.fillMaxWidth().weight(1f).padding(8.dp).navigationBarsPadding(), verticalArrangement = Arrangement.SpaceEvenly){
                     items(totalItems){
                             item->
                         DisplayCard(item,viewModel)
@@ -92,10 +88,12 @@ class CartScreen {
         }
 
 
+        }
+
+
 
     @Composable
     fun DisplayCard(item: EcommTable,viewModel: MyViewModel){
-
         var quantity by remember {
             mutableStateOf(item.quantity)
         }
@@ -103,9 +101,10 @@ class CartScreen {
         Column (
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight()
-                .offset(0.dp,50.dp)
-                .padding(5.dp)
+                .offset(0.dp,5.dp)
+                .padding(8.dp)
+                .background(color = Color.White), verticalArrangement = Arrangement.SpaceEvenly
+
 
 
         ){
@@ -128,9 +127,10 @@ class CartScreen {
 
 
                     Column (modifier = Modifier
-                        .padding(10.dp)){
+                        .padding(8.dp)){
                         Row(horizontalArrangement = Arrangement.End, modifier = Modifier.offset(180.dp)){
                             Icon(painter = painterResource(R.drawable.cancel_svgrepo_com),"cancelBt", tint = Color.Red, modifier = Modifier.clickable{
+                                viewModel.deleteItemCart(item.id)
 
                             })
                         }

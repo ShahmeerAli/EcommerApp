@@ -26,6 +26,9 @@ interface EcommDao {
 
    @Query("Update EcommTable SET quantity =:quantity WHERE id =:id")
   suspend fun updateQuantity(quantity:Int, id:Int)
+  @Query("Delete from EcommTable where id=:id")
+  suspend fun deleteCart(id:Int)
+
 
 
 }

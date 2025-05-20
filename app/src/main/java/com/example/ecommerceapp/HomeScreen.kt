@@ -1,6 +1,5 @@
 package com.example.ecommerceapp
 
-import android.annotation.SuppressLint
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -21,24 +19,18 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -59,13 +51,10 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class HomeScreen {
     private lateinit var RoomViewModel: MyViewModel
-
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
@@ -73,54 +62,22 @@ class HomeScreen {
     fun Home(navController: NavController){
         val context= LocalContext.current.applicationContext
         val repoFirebase= RepositoryClass()
-
-
         val dbHelper= DBHelperClass.getInstance(context)
         val repo= RepositoryRoom(dbHelper)
         val viewmodel: MyViewModel = viewModel(factory = RepoFactory(repoFirebase,repo))
 
-
-
-
         Scaffold (
-            topBar = { TopAppBar(
-                title = {Text("")}, colors = TopAppBarDefaults.mediumTopAppBarColors(
-                    titleContentColor = Color(0xFF800080)
-                ),
-
-                windowInsets = WindowInsets(0, 0, 0, 0),
-                modifier = Modifier.height(30.dp),
-                navigationIcon = {
-                    IconButton(onClick = {
-                        Toast.makeText(context, "Menu Clicked", Toast.LENGTH_SHORT).show()
-                    }) {
-                        Icon(painterResource(R.drawable.menu_svgrepo_com), "Menu")
-                    }
-                }, actions = {
-                    IconButton(onClick = {
-
-                    }) {
-                        Icon(painterResource(R.drawable.heart_svgrepo_com__1_),"cart")
-                    }
-                }
-            )
-            }
         )
         {
             innerpadding->
-            Column (modifier = Modifier.fillMaxWidth().background(color = Color.White)
+            Column (modifier = Modifier.fillMaxWidth().background(color = Color.White).fillMaxHeight()
                 .padding(
               innerpadding
             )
             ) {
-
                     MainDisplay(navController,viewmodel)
 
-
             }
-
-
-
 
 
 
@@ -132,11 +89,7 @@ class HomeScreen {
 
     @Composable
     fun MainDisplay(navController: NavController,viewmodel: MyViewModel){
-        Spacer(modifier = Modifier.height(10.dp))
-        Row(modifier = Modifier.fillMaxWidth().padding(5.dp).border(0.dp, color = Color.Transparent, shape = RoundedCornerShape(3.dp)), horizontalArrangement = Arrangement.Center){
             Image(painterResource(R.drawable.bannerimage),"banner", modifier = Modifier.fillMaxWidth())
-
-        }
         Spacer(modifier = Modifier.height(12.dp))
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween){
             Text("Shop by Category", style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold), modifier = Modifier.padding(5.dp))
@@ -144,7 +97,6 @@ class HomeScreen {
 
             }))
         }
-
         Spacer(modifier= Modifier.height(12.dp))
         ShopCategory(navController)
         Spacer(modifier = Modifier.height(12.dp))
@@ -196,7 +148,6 @@ class HomeScreen {
 
               }
           }
-
           , verticalArrangement = Arrangement.Center) {
                  Image(painterResource(images[itemIndex]),"Images", modifier = Modifier.size(70.dp).clip(
                      CircleShape
@@ -285,13 +236,6 @@ class HomeScreen {
 
                 }
                 }
-
-
-
-
-
-
-
 
     }
 

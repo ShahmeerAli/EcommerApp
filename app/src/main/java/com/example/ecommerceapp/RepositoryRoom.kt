@@ -15,4 +15,7 @@ class RepositoryRoom(private val rdb: DBHelperClass)  {
     fun getFavouriteItems()=rdb.ecommDao().getFavouriteItems()
 
     suspend fun getQuantity(quantity:Int,id:Int)=rdb.ecommDao().updateQuantity(quantity,id)
+
+    suspend fun deleteCart(id:Int)=rdb.ecommDao().deleteCart(id)
+
 }

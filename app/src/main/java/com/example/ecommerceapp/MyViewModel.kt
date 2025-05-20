@@ -65,9 +65,15 @@ class MyViewModel( val repo: RepositoryClass?=null,val repositoryRoom: Repositor
 
     fun GetFavItems(): LiveData<MutableList<EcommTable>>? {
 
-           return repositoryRoom?.getFavouriteItems()
+        return repositoryRoom?.getFavouriteItems()
+    }
 
 
+
+    fun deleteItemCart(id:Int){
+        viewModelScope.launch(Dispatchers.IO){
+            repositoryRoom?.deleteCart(id)
+        }
     }
 
 
