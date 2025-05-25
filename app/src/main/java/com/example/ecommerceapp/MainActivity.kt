@@ -45,15 +45,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        installSplashScreen()
         actionBar?.hide()
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        WindowInsetsControllerCompat(window, window.decorView).let { controller ->
-            controller.hide(android.view.WindowInsets.Type.statusBars() or android.view.WindowInsets.Type.navigationBars())
-            controller.systemBarsBehavior =
-                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-        }
         setContent {
 
             EcommerceAppTheme {
@@ -82,7 +76,7 @@ fun MyBottomAppBar(){
    Scaffold (
        bottomBar = {
            BottomAppBar(
-               containerColor = Color(0xFFCBC3E3)
+               containerColor = Color(0xFF442C9A)
            ){
                IconButton(onClick = {
                    selected.value=R.drawable.home_1_svgrepo_com
@@ -91,7 +85,9 @@ fun MyBottomAppBar(){
                        popUpTo(0)
                    }
                }, modifier = Modifier.weight(1f)) {
-                   Icon(painterResource(R.drawable.home_1_svgrepo_com),"Home", tint = if(selected.value==R.drawable.home_1_svgrepo_com) Color(0XFF800080) else Color.White)
+                   Icon(painterResource(R.drawable.home_1_svgrepo_com),"Home", tint = if(selected.value==R.drawable.home_1_svgrepo_com) Color(
+                       0xFFF8F6F8
+                   ) else Color.White)
                }
                IconButton(onClick = {
                    selected.value=R.drawable.search_svgrepo_com
@@ -101,7 +97,9 @@ fun MyBottomAppBar(){
                    }
                }, modifier = Modifier.weight(1f)
                ) {
-                   Icon(painterResource(R.drawable.search_svgrepo_com),"Search", tint = if(selected.value==R.drawable.search_svgrepo_com) Color(0XFF800080) else Color.White)
+                   Icon(painterResource(R.drawable.search_svgrepo_com),"Search", tint = if(selected.value==R.drawable.search_svgrepo_com) Color(
+                       0xFFF5EFF5
+                   ) else Color.White)
                }
                IconButton(onClick = {
                    selected.value=R.drawable.cart_large_minimalistic_svgrepo_com
@@ -111,7 +109,9 @@ fun MyBottomAppBar(){
                    }
                }, modifier = Modifier.weight(1f)
                ) {
-                   Icon(painterResource(R.drawable.cart_large_minimalistic_svgrepo_com),"cart",tint=if(selected.value==R.drawable.cart_large_minimalistic_svgrepo_com) Color(0xFF800080) else Color.White)
+                   Icon(painterResource(R.drawable.cart_large_minimalistic_svgrepo_com),"cart",tint=if(selected.value==R.drawable.cart_large_minimalistic_svgrepo_com) Color(
+                       0xFAEEE8EE
+                   ) else Color.White)
 
                }
                IconButton(onClick = {
@@ -122,7 +122,9 @@ fun MyBottomAppBar(){
                    }
                }, modifier = Modifier.weight(1f)
                ) {
-                   Icon(painterResource(R.drawable.settings_minimalistic_svgrepo_com),"settings", tint = if(selected.value==R.drawable.settings_minimalistic_svgrepo_com) Color(0xFF800080) else Color.White)
+                   Icon(painterResource(R.drawable.settings_minimalistic_svgrepo_com),"settings", tint = if(selected.value==R.drawable.settings_minimalistic_svgrepo_com) Color(
+                       0xFFEFEFEF
+                   ) else Color.White)
                }
            }
        }

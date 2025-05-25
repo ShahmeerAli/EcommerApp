@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.EcommerceApp.Splash" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenAnimationDuration">3000</item>
-        <item name="windowSplashScreenBackground">#8A63F6</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/mainlogo</item>
+    <style name="Theme.EcommerceApp.Splash" parent="Theme.EcommerceApp">
         <item name="postSplashScreenTheme">@style/Theme.EcommerceApp</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
