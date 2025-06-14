@@ -136,13 +136,13 @@ fun MyBottomAppBar(){
                HomeScreen().Home(navController)
            }
            composable(Screens.SearchScreen.screen) {
-               SearchScreen()
+               SearchScreen().searchBar()
            }
            composable(Screens.CartScreen.screen) {
                CartScreen().displayCartItems()
            }
            composable(Screens.SettingsScreen.screen) {
-               SearchScreen()
+               SettingsScreen()
            }
            composable(Screens.MenClothing.screen) {
                MenClothing().DisplayClothingMen()
